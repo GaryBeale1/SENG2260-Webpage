@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<title>High Fidelity</title>
+</head>
+	<body>
+		<div id="Border">	
+			<div id="IntroPage">
+				<button class="IntroButton" onclick="HideIntro(); ShowSettings(); ShowHome()" style="vertical-align:middle">
+					<span>Settings</span>
+				</button>
+
+				<button class="IntroButton" onclick="HideIntro(); ShowMain(); ShowHome()" style="vertical-align:middle">
+					<span>New Trip</span>
+				</button>
+			</div>
+
+			<div id="NavButtons" style="display: none;">
+				<button class="HomeClick" id="HomeButton" onclick="HideIntro(); HideMain(); HideTrainSearch(); HideBusSearch(); HideSearchSearch(); HideTrainSelect(); HideBusSelect(); HideSearchSelect(); HideHome(); HideSettings(); ShowIntro()" style="float: right">
+					<span>Home</span>
+				</button>
+
+				<button class="BackClick" id="BackButton" onclick="RunBack()" style="float: left;">
+					<span>Back</span>
+				</button>
+			</div>
+
+			<div id="SettingsPage" style="display: none;">
+				<div class="SelectButton">
+					<p style="display: inline;">Colour Blind</p>
+					<label class="switch">
+				  	<input type="radio" name="settingslider" id="test1">
+				  	<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="SelectButton">
+					<p style="display: inline;">Visually Impaired</p>
+					<label class="switch">
+				  	<input type="radio" name="settingslider" id="visuallyImpaired">
+				  	<span class="slider round"></span>
+					</label>
+
+				  	<p style="display: inline;"><br>Sound Volume</p>
+				  	<input type="range" min="1" max="100" value="50">
+				</div>
+
+				<button onclick="confirmSettings()" class="searchButton" style="vertical-align:middle">
+						Confirm Settings
+				</button>
+
+			</div>
+
+			<div id="HomeMenu" style="display: none;">
+				<button class="MenuButton" onclick="HideMain(); ShowTrain()" style="vertical-align:middle">
+					<span>Train</span>
+				</button>
+
+				<button class="MenuButton" onclick="HideMain(); ShowBus()" style="vertical-align:middle">
+					<span>Bus</span>
+				</button>
+
+				<button class="MenuButton" onclick="HideMain(); ShowSearch()" style="vertical-align:middle">
+					<span>Search</span>
+				</button>
+			</div>
+
+			<div id="TrainSearch" style="display: none;">
+					<input type="text" class="textbox" id="trainDepartLocation" placeholder="Depart Location">
+					<input type="text" class="textbox" id="trainDestinationLocation" placeholder="Arrival Location">
+					<button onclick="trainInputs()" class="searchButton" style="vertical-align:middle">
+						Search
+					</button>
+			</div>
+
+			<div id="BusSearch" style="display: none;">
+					<input type="text" class="textbox" id="busDepartLocation" placeholder="Depart Location">
+					<input type="text" class="textbox" id="busDestinationLocation" placeholder="Arrival Location">
+					<button onclick="busInputs()" class="searchButton" style="vertical-align:middle">
+						Search
+					</button>
+			</div>
+
+			<div id="SearchSearch" style="display: none;">
+					<input type="text" class="textbox" id="searchDepartLocation" placeholder="Depart Location">
+					<input type="text" class="textbox" id="searchDestinationLocation" placeholder="Arrival Location">
+					<button onclick="searchInputs()" class="searchButton" style="vertical-align:middle">
+						Search
+					</button>
+			</div>
+
+			<div id="TrainSelect" style="text-align: center; display: none;">
+				 <div class="SelectButton">
+				    <input type="radio" id="Train1" name="Trains" checked="checked">
+				    <label for="Train1"></label>
+				</div>
+				    <br>
+				 <div class="SelectButton">
+				    <input type="radio" id="Train2" name="Trains">
+				    <label for="Train2"></label>
+				</div>
+				    <br>
+				 <div class="SelectButton">
+				    <input type="radio" id="Train3" name="Trains">
+				    <label for="Train3"></label>
+				    </div> 
+				    <br>
+				    <button onclick="trainTrip(); HideTrainSelect(); HideDiv(); startTimer(); ShowPhone(); currentTimeDisplay();" class="searchButton" style="vertical-align:middle">
+						Confirm Trip
+					</button>
+					<button onclick="TrainSelectCancel();" class="cancelButton" style="vertical-align:middle">
+						Cancel
+					</button>
+			</div>
+
+			<div id="BusSelect" style="text-align: center; display: none;">
+		<div class="SelectButton">
+				    <input type="radio" id="Bus1" name="Buses" checked="checked">
+				    <label for="Bus1"></label>
+				</div>
+				    <br>
+		<div class="SelectButton">
+				    <input type="radio" id="Bus2" name="Buses">
+				    <label for="Bus2"></label>
+				</div>
+				    <br>
+		<div class="SelectButton">
+				    <input type="radio" id="Bus3" name="Buses">
+				    <label for="Bus3"></label> 
+				</div>
+				    <br>
+				    <button onclick="busTrip(); HideBusSelect(); HideDiv(); startTimer(); ShowPhone(); currentTimeDisplay();" class="searchButton" style="vertical-align:middle">
+						Confirm Trip
+					</button>
+					<button onclick="BusSelectCancel();" class="cancelButton" style="vertical-align:middle">
+						Cancel
+					</button>
+			</div>
+
+			<div id="SearchSelect" style="text-align: center; display: none;">
+				    <div class="SelectButton">
+				    <input type="radio" id="Search1" name="Searches" checked="checked">
+				    <label for="Search"></label>
+				</div>
+				    <br>
+				    <div class="SelectButton">
+				    <input type="radio" id="Search2" name="Searches">
+				    <label for="Search"></label>
+				</div>
+				    <br>
+				    <div class="SelectButton">
+				    <input type="radio" id="Search3" name="Searches">
+				    <label for="Search"></label>
+				    </div> 
+				    <br>
+				    <button onclick="searchTrip(); HideSearchSelect(); HideDiv(); startTimer(); ShowPhone(); currentTimeDisplay();" class="searchButton" style="vertical-align:middle">
+						Confirm Trip
+					</button>
+					<button onclick="SearchSelectCancel();" class="cancelButton" style="vertical-align:middle">
+						Cancel
+					</button>
+			</div>
+
+			<div id="TripMenu" style="display: none;">
+				<button class="IntroButton" onclick="ShowPhoneButton(); ShowDiv(); ShowBack(); ShowTripSettings(); NormalBackground(); HideTripMenu(); HideHidePhone();" style="vertical-align:middle">
+					<span>Settings</span>
+				</button>
+				<button class="IntroButton" onclick="ShowPhoneButton(); ShowDiv(); ShowHome(); CancelTrip(); ShowMain(); NormalBackground();HideHidePhone();" style="vertical-align:middle">
+					<span>Cancel Trip</span>
+				</button>
+			</div>
+
+			<div id="TripSettingsPage" style="display: none;">
+				<div class="SelectButton">
+					<p style="display: inline;">Colour Blind</p>
+					<label class="switch">
+				  	<input type="radio" name="settingslider" id="test1">
+				  	<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="SelectButton">
+					<p style="display: inline;">Visually Impaired</p>
+					<label class="switch">
+				  	<input type="radio" name="settingslider" id="visuallyImpaired">
+				  	<span class="slider round"></span>
+					</label>
+
+				  	<p style="display: inline;"><br>Sound Volume</p>
+				  	<input type="range" min="1" max="100" value="50">
+				</div>
+
+				<button onclick="confirmTripSettings(); HideDiv(); ArrowBackground(); HidePhone(); HideHidePhone();" class="searchButton" style="vertical-align:middle">
+						Confirm Settings
+				</button>
+
+			</div>
+			
+		</div>
+
+		<div id="currentTrip" style="text-align: right;">
+			<span>
+				Time Until Departure
+			</span>
+			<span id="hours">
+				00:
+			</span>
+			<span id="mins">
+				00:
+			</span>
+			<span id="seconds">
+				00
+			</span>
+		</div>
+
+		<div id="currentTime" style="text-align: left;">
+			<span id="current">
+				
+			</span>
+		</div>
+
+		<div id="returnPhone" class="Dotted" style="display: none;">
+			<button class="PhoneButton" onclick="ShowPhoneButton(); ShowDiv(); ShowTripMenu(); HideHome(); HidePhone();" style="vertical-align:middle">
+				<span>(Return Phone To Field Of View)</span>
+			</button>
+		</div>
+
+		<div id="hidePhone" class="Dotted" style="display: none;;">
+			<button id="hidePhoneButton" class="PhoneButton" onclick="ShowPhone(); HideDiv(); HideHidePhone(); ArrowBackground();" style="vertical-align:middle;">
+				<span><mark>(Hide Phone)</mark></span>
+			</button>
+		</div>
+
+		<script>
+
+		var today = new Date();
+		var time = today.getHours() + ":" + today.getMinutes();
+		var time1 = (today.getHours()+1) + ":" + today.getMinutes();
+		var time2 = (today.getHours()+2) + ":" + today.getMinutes();
+		var time3 = (today.getHours()+3) + ":" + today.getMinutes();
+		var time4 = (today.getHours()+4) + ":" + today.getMinutes();
+
+		var hours = 0;
+		var mins = 0;
+		var seconds = 0;
+
+		function startTimer(){
+			timex = setTimeout(function(){
+			seconds--;
+			    if(seconds < 1){
+			    	seconds = 59;
+			    	mins--;
+			    }
+
+			    if(mins < 1) {
+			      	mins = 59;
+			      	hours --;
+			    }
+			         
+			    if (hours <10){
+			    	$("#hours").text('0'+hours+':')
+			    } 
+			    
+			    else {
+			    	$("#hours").text(hours+':');
+			    }
+			                       
+			    if (mins<10){                     
+			      $("#mins").text('0'+mins+':');
+			  	}       
+			       
+			    else { 
+			    	$("#mins").text(mins+':');
+			    }
+
+			    if (seconds <10) {
+			      $("#seconds").text('0'+seconds);
+			  	} 
+			    
+			    else $("#seconds").text(seconds);
+
+		    startTimer();
+		  },1000);
+		}
+
+		function currentTimeDisplay() {
+			document.getElementById('current').nextSibling.textContent = 'Current Time: ' + time;
+		}
+
+		function NormalBackground() {
+			document.body.style.backgroundImage = "url('phonebackground.png')";
+		}
+
+		function ArrowBackground() {
+			document.body.style.backgroundImage = "url('arrowbackground.png')";
+		}
+
+		function HideIntro() {
+			var x = document.getElementById("IntroPage");
+			x.style.display = "none";
+		}
+
+		function HideMain() {
+			var x = document.getElementById("HomeMenu");
+			x.style.display = "none";
+		}
+
+		function HideSettings() {
+			var x = document.getElementById("SettingsPage");
+			x.style.display = "none";
+		}
+
+		function HideTrainSearch() {
+			var x = document.getElementById("TrainSearch");
+			x.style.display = "none";
+		}
+
+		function HideBusSearch() {
+			var x = document.getElementById("BusSearch");
+			x.style.display = "none";
+		}
+
+		function HideSearchSearch() {
+			var x = document.getElementById("SearchSearch");
+			x.style.display = "none";
+		}
+
+		function HideTrainSelect() {
+			var x = document.getElementById("TrainSelect");
+			x.style.display = "none";
+		}
+
+		function HideBusSelect() {
+			var x = document.getElementById("BusSelect");
+			x.style.display = "none";
+		}
+
+		function HideSearchSelect() {
+			var x = document.getElementById("SearchSelect");
+			x.style.display = "none";
+		}
+
+		function HideDiv() {
+			var x = document.getElementById("Border");
+			x.style.display = "none";
+		}
+
+		function HideHome() {
+			var x = document.getElementById("NavButtons");
+			x.style.display = "none";
+		}
+
+		function HideHidePhone() {
+			var x = document.getElementById("hidePhone");
+			x.style.display = "none";
+		}
+
+		function ShowPhoneButton() {
+			var x = document.getElementById("returnPhone");
+			x.style.display = "none";
+			document.body.style.backgroundImage = "url('phonearrowbackground.png')";
+		}
+
+		function HideTripMenu() {
+			var x = document.getElementById("TripMenu");
+			x.style.display = "none";
+		}
+
+		function ShowMain() {
+			var x = document.getElementById("HomeMenu");
+			x.style.display = "block";
+		}
+
+		function ShowSettings() {
+			var x = document.getElementById("SettingsPage");
+			x.style.display = "block";
+		}
+
+		function ShowTrain() {
+			var x = document.getElementById("TrainSearch");
+			x.style.display = "block";
+		}
+
+		function ShowBus() {
+			var x = document.getElementById("BusSearch");
+			x.style.display = "block";
+		}
+
+		function ShowSearch() {
+			var x = document.getElementById("SearchSearch");
+			x.style.display = "block";
+		}
+
+		function ShowHome() {
+			var x = document.getElementById("NavButtons");
+			x.style.display = "block";
+			var x = document.getElementById("HomeButton");
+			x.style.display = "block";
+			var x = document.getElementById("BackButton");
+			x.style.display = "block";
+		}
+
+		function ShowBack() {
+			var x = document.getElementById("BackButton");
+			x.style.display = "block";
+			var x = document.getElementById("NavButtons");
+			x.style.display = "block";
+			var x = document.getElementById("HomeButton");
+			x.style.display = "none";
+		}
+
+		function ShowIntro() {
+			var x = document.getElementById("IntroPage");
+			x.style.display = "block";
+		}
+
+		function ShowPhone() {
+			var x = document.getElementById("returnPhone");
+			x.style.display = "block";
+		}
+
+		function ShowDiv() {
+			var x = document.getElementById("Border");
+			x.style.display = "block";
+		}
+
+		function ShowTripMenu() {
+			var x = document.getElementById("TripMenu");
+			x.style.display = "block";
+		}
+
+		function ShowTripSettings() {
+			var x = document.getElementById("TripSettingsPage");
+			x.style.display = "block";
+		}
+
+		function HidePhone() {
+			var x = document.getElementById("hidePhone");
+			x.style.display = "block";
+		}
+
+		function TrainSelectCancel() {
+			var x = document.getElementById("TrainSelect");
+			x.style.display = "none";
+			var x = document.getElementById("HomeMenu");
+			x.style.display = "block";
+		}
+
+		function BusSelectCancel() {
+			var x = document.getElementById("BusSelect");
+			x.style.display = "none";
+			var x = document.getElementById("HomeMenu");
+			x.style.display = "block";
+		}
+
+		function SearchSelectCancel() {
+			var x = document.getElementById("SearchSelect");
+			x.style.display = "none";
+			var x = document.getElementById("HomeMenu");
+			x.style.display = "block";
+		}
+
+		function CancelTrip() {
+			var x = document.getElementById("currentTrip");
+			x.style.display = "none";
+			var x = document.getElementById("currentTime");
+			x.style.display = "none";
+			var x = document.getElementById("TripMenu");
+			x.style.display = "none";
+		}
+
+		function RunBack() {
+			var a = document.getElementById("NavButtons");
+			var b = document.getElementById("IntroPage");
+			var c = document.getElementById("HomeMenu");
+			var d = document.getElementById("TrainSearch");
+			var e = document.getElementById("BusSearch");
+			var f = document.getElementById("SearchSearch");
+			var g = document.getElementById("TrainSelect");
+			var h = document.getElementById("BusSelect");
+			var i = document.getElementById("SearchSelect");
+			var j = document.getElementById("SettingsPage");
+			var k = document.getElementById("TripSettingsPage");
+			var l = document.getElementById("TripMenu");
+
+			if (c.style.display == "block") {
+				a.style.display = "none";
+				b.style.display = "block";
+				c.style.display = "none";
+			}
+			else if (d.style.display == "block") {
+				c.style.display = "block";
+				d.style.display = "none";
+			}
+
+			else if (e.style.display == "block") {
+				c.style.display = "block";
+				e.style.display = "none";
+			}
+
+			else if (f.style.display == "block") {
+				c.style.display = "block";
+				f.style.display = "none";
+			}
+
+			else if (g.style.display == "block") {
+				d.style.display = "block";
+				g.style.display = "none";
+			}
+
+			else if (h.style.display == "block") {
+				e.style.display = "block";
+				h.style.display = "none";
+			}
+
+			else if (i.style.display == "block") {
+				f.style.display = "block";
+				i.style.display = "none";
+			}
+
+			else if (j.style.display == "block") {
+				a.style.display = "none";
+				b.style.display = "block";
+				j.style.display = "none";
+			}
+			else if (k.style.display == "block") {
+				a.style.display = "none";
+				l.style.display = "block";
+				k.style.display = "none";
+			}
+
+		}
+
+		function confirmSettings() {
+				document.getElementById("HomeButton").style.display = "none";
+				document.getElementById("IntroPage").style.display = "block";
+				document.getElementById("SettingsPage").style.display = "none";
+				document.getElementById("BackButton").style.display = "none";
+		}
+
+		function confirmTripSettings() {
+				document.getElementById("HomeButton").style.display = "none";
+				document.getElementById("returnPhone").style.display = "block";
+				document.getElementById("TripSettingsPage").style.display = "none";
+		}
+
+		function trainInputs() {
+			var depart=document.getElementById('trainDepartLocation').value;
+			var arrive=document.getElementById('trainDestinationLocation').value;
+			var x = document.getElementById("TrainSearch");
+			x.style.display = "none";
+			var x = document.getElementById("TrainSelect");
+			x.style.display = "block";			
+			document.getElementById('Train1').nextSibling.textContent = depart + ' >> ' + arrive + ' Leaves Platform 1 at ' + time1;
+			document.getElementById('Train2').nextSibling.textContent = depart + ' >> ' + arrive + ' Leaves Platform 1 at ' + time2;
+			document.getElementById('Train3').nextSibling.textContent = depart + ' >> ' + arrive + ' Leaves Platform 1 at ' + time3;
+		}
+
+		function busInputs() {
+			var depart=document.getElementById('busDepartLocation').value;
+			var arrive=document.getElementById('busDestinationLocation').value;
+			var x = document.getElementById("BusSearch");
+			x.style.display = "none";
+			var x = document.getElementById("BusSelect");
+			x.style.display = "block";			
+			document.getElementById('Bus1').nextSibling.textContent = depart + ' >> ' + arrive + ' Leaves Bus Stop 1 at ' + time1;
+			document.getElementById('Bus2').nextSibling.textContent = depart + ' >> ' + arrive + ' Leaves Bus Stop 1 at ' + time2;
+			document.getElementById('Bus3').nextSibling.textContent = depart + ' >> ' + arrive + ' Leaves Bus Stop 1 at ' + time3;
+		}
+
+		function searchInputs() {
+			var depart=document.getElementById('searchDepartLocation').value;
+			var arrive=document.getElementById('searchDestinationLocation').value;
+			var x = document.getElementById("SearchSearch");
+			x.style.display = "none";
+			var x = document.getElementById("SearchSelect");
+			x.style.display = "block";			
+			document.getElementById('Search1').nextSibling.textContent = depart + ' >> Gosford leaves platform 1 at ' + time1 +' Gosford >> ' + arrive + ' leaves from bus stop 1 at ' + time2;
+			document.getElementById('Search2').nextSibling.textContent = depart + ' >> Gosford leaves platform 1 at ' + time2 +' Gosford >> ' + arrive + ' leaves from bus stop 1 at ' + time3;
+			document.getElementById('Search3').nextSibling.textContent = depart + ' >> Gosford leaves platform 1 at ' + time3 +' Gosford >> ' + arrive + ' leaves from bus stop 1 at ' + time4;
+		}
+
+		function trainTrip() {
+			document.body.style.backgroundImage = "url('arrowbackground.png')";
+			
+			if (document.getElementById("Train1").checked) {
+				hours = 1;
+				document.getElementById("currentTrip").style.display = "block";
+				document.getElementById("currentTime").style.display = "block";
+			}
+			else if (document.getElementById("Train2").checked) {
+				hours = 2;
+				document.getElementById("currentTrip").style.display = "block";
+				document.getElementById("currentTime").style.display = "block";
+			}
+			else if (document.getElementById("Train3").checked) {
+				hours = 3;
+				document.getElementById("currentTrip").style.display = "block";
+				document.getElementById("currentTime").style.display = "block";
+			}
+		}
+
+
+		function busTrip() {
+			document.body.style.backgroundImage = "url('arrowbackground.png')";
+			
+			if (document.getElementById("Bus1").checked) {
+				hours = 1;
+				document.getElementById("currentTrip").style.display = "block";
+				document.getElementById("currentTime").style.display = "block";
+			}
+			else if (document.getElementById("Bus2").checked) {
+				hours = 2;
+				document.getElementById("currentTrip").style.display = "block";
+				document.getElementById("currentTime").style.display = "block";
+			}
+			else if (document.getElementById("Bus3").checked) {
+				hours = 3;
+				document.getElementById("currentTrip").style.display = "block";
+				document.getElementById("currentTime").style.display = "block";
+			}
+		}
+
+		function searchTrip() {
+			document.body.style.backgroundImage = "url('arrowbackground.png')";
+			
+			if (document.getElementById("Search1").checked) {
+				hours = 1;
+				document.getElementById("currentTrip").style.display = "block";
+				document.getElementById("currentTime").style.display = "block";
+			}
+			else if (document.getElementById("Search2").checked) {
+				hours = 2;
+				document.getElementById("currentTrip").style.display = "block";
+				document.getElementById("currentTime").style.display = "block";
+			}
+			else if (document.getElementById("Search3").checked) {
+				hours = 3;
+				document.getElementById("currentTrip").style.display = "block";
+				document.getElementById("currentTime").style.display = "block";
+			}
+		}
+
+		</script>
+
+	</body>
+</html>
